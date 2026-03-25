@@ -1,23 +1,33 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// --- KONFIGURASI ---
+// ================= CONFIG =================
 const supabaseUrl = 'https://ounyjjhwbqttjrtsmtjw.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91bnlqamh3YnF0dGpydHNtdGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzMzE1MzYsImV4cCI6MjA4OTkwNzUzNn0.0wgVlGfJEbDpjyH_eZKJt5OCgyB99WzgO-XGC4BGyl4'
 const imgbbKey = '14653af6d80ef10cec6a24071b5ae1fd' // <-- GANTI INI!
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-// Setting batasan tanggal (Max 2 hari kebelakang)
+// ================= ELEMENT =================
+const form = document.getElementById('revisiForm')
+const btnSubmit = document.getElementById('btnSubmit')
 const tglInput = document.getElementById('tanggal')
+
+// ================= DATE SETUP =================
 const today = new Date()
 const minDate = new Date()
 minDate.setDate(today.getDate() - 2)
+
 tglInput.min = minDate.toISOString().split('T')[0]
 tglInput.max = today.toISOString().split('T')[0]
 
-const form = document.getElementById('revisiForm')
-const btnSubmit = document.getElementById('btnSubmit')
+// ================= HELPER =================
+function resetBtn() {
+  btnSubmit.disabled = false
+  btnSubmit.innerText = 'Kirim'
+  btnSubmit.classList.replace('bg-gray-400', 'bg-blue-600')
+}
 
+// ================= SUBMIT =================
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
 
@@ -27,38 +37,62 @@ form.addEventListener('submit', async (e) => {
 
   const fd = new FormData(form)
   const fileFoto = fd.get('foto')
-  // ambil waktu device user
-  const createdAt = new Date().toISOString() // format ISO 8601, cocok ke Postgres
+  const createdAt = new Date().toISOString()
 
-  // ambil multiple checkbox (jenis revisi)
-  const revisions = fd.getAll('revision').join(', ')
+  const revisionsArr = fd.getAll('revision')
+  const revisions = revisionsArr.join(', ')
 
-  // ambil value mentah
   const ritasi = fd.get('ritasi')
   const jarak = fd.get('jarak')
   const smuStart = fd.get('smuStart')
   const smuEnd = fd.get('smuEnd')
 
-    // Validasi sesuai checkbox
+  // ================= VALIDASI TANGGAL (FIX MOBILE BUG) =================
+  const selectedDate = new Date(fd.get('tanggal'))
+  const min = new Date(minDate.toISOString().split('T')[0])
+  const max = new Date(today.toISOString().split('T')[0])
+
+  if (selectedDate < min || selectedDate > max) {
+    alert("Tanggal hanya boleh 2 hari kebelakang sampai hari ini")
+    resetBtn()
+    return
+  }
+
+  // ================= VALIDASI CHECKBOX =================
+  if (revisionsArr.length === 0) {
+    alert("Pilih minimal 1 jenis revisi")
+    resetBtn()
+    return
+  }
+
+  // ================= VALIDASI FIELD =================
   if (revisions.includes('ritasi') && (!ritasi || ritasi.trim() === "")) {
-    alert("Ritasi Actual wajib diisi karena Ritasi dicentang")
+    alert("Ritasi wajib diisi")
+    resetBtn()
     return
   }
 
   if (revisions.includes('jarak') && (!jarak || jarak.trim() === "")) {
-    alert("Jarak Actual wajib diisi karena Jarak dicentang")
+    alert("Jarak wajib diisi")
+    resetBtn()
     return
   }
 
-  if (revisions.includes('SMU') && (!smuStart || smuStart.trim() === "" || !smuEnd || smuEnd.trim() === "")) {
-    alert("SMU Start & End wajib diisi karena SMU dicentang")
+  if (revisions.includes('SMU') && (!smuStart || !smuEnd)) {
+    alert("SMU wajib diisi")
+    resetBtn()
+    return
+  }
+
+  // ================= VALIDASI LOGIC =================
+  if (smuStart && smuEnd && Number(smuEnd) <= Number(smuStart)) {
+    alert("SMU End harus lebih besar dari SMU Start")
+    resetBtn()
     return
   }
 
   try {
-    // =========================
-    // 1. UPLOAD KE IMGBB
-    // =========================
+    // ================= UPLOAD IMAGE =================
     const imgFormData = new FormData()
     imgFormData.append('image', fileFoto)
 
@@ -70,15 +104,13 @@ form.addEventListener('submit', async (e) => {
     const result = await response.json()
 
     if (!result.success) {
-      throw new Error('Gagal upload ke ImgBB: ' + result.error.message)
+      throw new Error('Gagal upload gambar')
     }
 
     const foto_url = result.data.url
     btnSubmit.innerText = 'Menyimpan Data ke Database...'
 
-    // =========================
-    // 2. INSERT KE SUPABASE
-    // =========================
+    // ================= INSERT DB =================
     const { error } = await supabase
       .from('ComplainDataOperator')
       .insert([{
@@ -91,16 +123,15 @@ form.addEventListener('submit', async (e) => {
         UnitType: fd.get('unitType'),
         UnitID: fd.get('unitID'),
 
-        // ✅ FIX: biar tidak NaN & optional
-        RitationAct: ritasi && ritasi !== "" ? Number(ritasi) : null,
-        DistanceAct: jarak && jarak !== "" ? Number(jarak) : null,
-        SMUStart: smuStart && smuStart !== "" ? Number(smuStart) : null,
-        SMUEnd: smuEnd && smuEnd !== "" ? Number(smuEnd) : null,
+        RitationAct: ritasi ? Number(ritasi) : null,
+        DistanceAct: jarak ? Number(jarak) : null,
+        SMUStart: smuStart ? Number(smuStart) : null,
+        SMUEnd: smuEnd ? Number(smuEnd) : null,
 
         DisposalName: fd.get('disposal'),
         NoHP: fd.get('nohp'),
         Description: fd.get('desc'),
-        Url: foto_url, 
+        Url: foto_url,
         created_at: createdAt
       }])
 
@@ -113,8 +144,6 @@ form.addEventListener('submit', async (e) => {
     console.error(err)
     alert('Terjadi Kesalahan: ' + err.message)
   } finally {
-    btnSubmit.disabled = false
-    btnSubmit.innerText = 'Kirim'
-    btnSubmit.classList.replace('bg-gray-400', 'bg-blue-600')
+    resetBtn()
   }
 })
