@@ -3,21 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Form Revisi Data - ImgBB Edition</title>
+  <title>Form Revisi Data</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script type="module" src="app.js"></script>
 </head>
 
 <body class="bg-gray-100 py-6">
   <div class="w-full max-w-xl mx-auto bg-white p-6 rounded shadow">
-    <h2 class="text-2xl font-bold mb-6 text-center">Form Revisi <br>Ketidaksesuaian Data</h2>
+    
+    <h2 class="text-2xl font-bold mb-6 text-center">
+      Form Revisi <br>Ketidaksesuaian Data
+    </h2>
 
     <form id="revisiForm" class="space-y-4">
+
+      <!-- TANGGAL -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="font-semibold text-sm">Tanggal Revisi</label>
-          <input type="date" id="tanggal" name="tanggal" required class="w-full border p-2 rounded"/>
+          <input type="date" id="tanggal" name="tanggal" required
+            class="w-full border p-2 rounded"/>
+          <p class="text-xs text-gray-500">
+            Maksimal 2 hari ke belakang
+          </p>
         </div>
+
         <div>
           <label class="font-semibold text-sm">Shift</label>
           <select name="shift" required class="w-full border p-2 rounded">
@@ -28,17 +37,19 @@
         </div>
       </div>
 
+      <!-- SN & NAMA -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="font-semibold text-sm">SN (Serial Number)</label>
+          <label class="font-semibold text-sm">SN</label>
           <input name="sn" required class="w-full border p-2 rounded"/>
         </div>
         <div>
           <label class="font-semibold text-sm">Nama Operator</label>
-          <input name="nama" placeholder="Nama Lengkap" required class="w-full border p-2 rounded"/>
+          <input name="nama" required class="w-full border p-2 rounded"/>
         </div>
       </div>
 
+      <!-- JENIS REVISI -->
       <div>
         <label class="font-semibold text-sm">Jenis Revisi</label>
         <div class="flex gap-4 mt-2">
@@ -48,6 +59,7 @@
         </div>
       </div>
 
+      <!-- PIT & UNIT -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="font-semibold text-sm">PIT</label>
@@ -59,7 +71,7 @@
         <div>
           <label class="font-semibold text-sm">Jenis Unit</label>
           <select name="unitType" required class="w-full border p-2 rounded">
-            <option value="">Pilih Jenis Unit</option>
+            <option value="">Pilih</option>
             <option value="Excavator">Excavator</option>
             <option value="OHT">OHT</option>
             <option value="Dozer">Dozer</option>
@@ -72,58 +84,76 @@
         </div>
       </div>
 
+      <!-- UNIT ID -->
       <div>
         <label class="font-semibold text-sm">ID Unit</label>
-        <input name="unitID" placeholder="Contoh: CE6224" required class="w-full border p-2 rounded"/>
+        <input name="unitID" required class="w-full border p-2 rounded"/>
       </div>
 
+      <!-- RITASI & JARAK -->
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="font-semibold text-xs">Ritasi Actual</label>
-          <input type="number" name="ritasi"  class="w-full border p-2 rounded"/>
+          <input type="number" name="ritasi" step="any"
+            class="w-full border p-2 rounded"/>
         </div>
         <div>
           <label class="font-semibold text-xs">Jarak Actual</label>
-          <input type="number" name="jarak"  class="w-full border p-2 rounded"/>
+          <input type="number" name="jarak" step="any"
+            class="w-full border p-2 rounded"/>
         </div>
       </div>
 
+      <!-- SMU -->
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="font-semibold text-xs">SMU Awal</label>
-          <input type="number" name="smuStart" step="0.01" class="w-full border p-2 rounded"/>
+          <input type="number" name="smuStart" step="any"
+            class="w-full border p-2 rounded"/>
         </div>
         <div>
           <label class="font-semibold text-xs">SMU Akhir</label>
-          <input type="number" name="smuEnd" step="0.01" class="w-full border p-2 rounded"/>
+          <input type="number" name="smuEnd" step="any"
+            class="w-full border p-2 rounded"/>
         </div>
       </div>
 
+      <!-- LAINNYA -->
       <div>
         <label class="font-semibold text-sm">Disposal</label>
         <input name="disposal" required class="w-full border p-2 rounded"/>
       </div>
 
       <div>
-        <label class="font-semibold text-sm">No HP (WhatsApp)</label>
-        <input name="nohp" type="tel" placeholder="0812..." required class="w-full border p-2 rounded"/>
+        <label class="font-semibold text-sm">No HP</label>
+        <input name="nohp" type="tel" required class="w-full border p-2 rounded"/>
       </div>
 
       <div>
         <label class="font-semibold text-sm">Deskripsi</label>
-        <textarea name="desc" required class="w-full border p-2 rounded" rows="3"></textarea>
+        <textarea name="desc" required rows="3"
+          class="w-full border p-2 rounded"></textarea>
       </div>
 
+      <!-- FOTO -->
       <div class="bg-blue-50 p-4 rounded border border-blue-200">
-        <label class="font-semibold text-blue-800 block mb-2">Upload Foto SMR</label>
-        <input type="file" name="foto" id="fotoInput" accept="image/*" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"/>
+        <label class="font-semibold text-blue-800 block mb-2">
+          Upload Foto SMR
+        </label>
+        <input type="file" name="foto" required accept="image/*"
+          class="block w-full text-sm"/>
       </div>
 
-      <button id="btnSubmit" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition duration-200">
+      <!-- BUTTON -->
+      <button id="btnSubmit" type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
         Kirim
       </button>
 
     </form>
   </div>
+
+  <!-- ✅ JS di bawah (IMPORTANT) -->
+  <script type="module" src="app.js"></script>
 </body>
 </html>
