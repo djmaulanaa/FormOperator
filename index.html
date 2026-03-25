@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Revisi Data - ImgBB Edition</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="app.js"></script>
+</head>
+
+<body class="bg-gray-100 py-6">
+  <div class="w-full max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-6 text-center">Form Revisi <br>Ketidaksesuaian Data</h2>
+
+    <form id="revisiForm" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="font-semibold text-sm">Tanggal Revisi</label>
+          <input type="date" id="tanggal" name="tanggal" required class="w-full border p-2 rounded"/>
+        </div>
+        <div>
+          <label class="font-semibold text-sm">Shift</label>
+          <select name="shift" required class="w-full border p-2 rounded">
+            <option value="">Pilih</option>
+            <option value="DS">DS</option>
+            <option value="NS">NS</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="font-semibold text-sm">SN (Serial Number)</label>
+          <input name="sn" required class="w-full border p-2 rounded"/>
+        </div>
+        <div>
+          <label class="font-semibold text-sm">Nama Operator</label>
+          <input name="nama" placeholder="Nama Lengkap" required class="w-full border p-2 rounded"/>
+        </div>
+      </div>
+
+      <div>
+        <label class="font-semibold text-sm">Jenis Revisi</label>
+        <div class="flex gap-4 mt-2">
+          <label><input type="checkbox" name="revision" value="jarak"> Jarak</label>
+          <label><input type="checkbox" name="revision" value="ritasi"> Ritasi</label>
+          <label><input type="checkbox" name="revision" value="SMU"> SMU</label>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="font-semibold text-sm">PIT</label>
+          <select name="pit" required class="w-full border p-2 rounded">
+            <option value="KGB">KGB</option>
+            <option value="GRB">GRB</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-semibold text-sm">Jenis Unit</label>
+          <select name="unitType" required class="w-full border p-2 rounded">
+            <option value="">Pilih Jenis Unit</option>
+            <option value="Excavator">Excavator</option>
+            <option value="OHT">OHT</option>
+            <option value="Dozer">Dozer</option>
+            <option value="Grader">Grader</option>
+            <option value="Dump Truck">Dump Truck</option>
+            <option value="Compactor">Compactor</option>
+            <option value="WT">WT</option>
+            <option value="Lowboy">Lowboy</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="font-semibold text-sm">ID Unit</label>
+        <input name="unitID" placeholder="Contoh: CE6224" required class="w-full border p-2 rounded"/>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="font-semibold text-xs">Ritasi Actual</label>
+          <input type="number" name="ritasi"  class="w-full border p-2 rounded"/>
+        </div>
+        <div>
+          <label class="font-semibold text-xs">Jarak Actual</label>
+          <input type="number" name="jarak"  class="w-full border p-2 rounded"/>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="font-semibold text-xs">SMU Awal</label>
+          <input type="number" name="smuStart" step="0.01" class="w-full border p-2 rounded"/>
+        </div>
+        <div>
+          <label class="font-semibold text-xs">SMU Akhir</label>
+          <input type="number" name="smuEnd" step="0.01" class="w-full border p-2 rounded"/>
+        </div>
+      </div>
+
+      <div>
+        <label class="font-semibold text-sm">Disposal</label>
+        <input name="disposal" required class="w-full border p-2 rounded"/>
+      </div>
+
+      <div>
+        <label class="font-semibold text-sm">No HP (WhatsApp)</label>
+        <input name="nohp" type="tel" placeholder="0812..." required class="w-full border p-2 rounded"/>
+      </div>
+
+      <div>
+        <label class="font-semibold text-sm">Deskripsi</label>
+        <textarea name="desc" required class="w-full border p-2 rounded" rows="3"></textarea>
+      </div>
+
+      <div class="bg-blue-50 p-4 rounded border border-blue-200">
+        <label class="font-semibold text-blue-800 block mb-2">Upload Foto SMR</label>
+        <input type="file" name="foto" id="fotoInput" accept="image/*" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"/>
+      </div>
+
+      <button id="btnSubmit" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition duration-200">
+        Kirim
+      </button>
+
+    </form>
+  </div>
+</body>
+</html>
