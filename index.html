@@ -21,18 +21,19 @@
         <div>
           <label class="font-semibold text-sm">Tanggal Revisi</label>
           <input type="date" id="tanggal" name="tanggal" required
-            class="w-full border p-2 rounded"/>
-          <p class="text-xs pt-2 text-gray-500">
-            Maksimal kirim data hanya 2 hari ke belakang, selebihnya tidak bisa dikirim
+            class="w-full border p-2 rounded"
+            placeholder="Pilih tanggal revisi"/>
+          <p class="text-xs text-gray-500">
+            Maksimal 2 hari ke belakang
           </p>
         </div>
 
         <div>
           <label class="font-semibold text-sm">Shift</label>
           <select name="shift" required class="w-full border p-2 rounded">
-            <option value="">Pilih</option>
-            <option value="DS">DS</option>
-            <option value="NS">NS</option>
+            <option value="">Pilih shift</option>
+            <option value="DS">Day Shift (DS)</option>
+            <option value="NS">Night Shift (NS)</option>
           </select>
         </div>
       </div>
@@ -41,11 +42,15 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="font-semibold text-sm">SN</label>
-          <input name="sn" required class="w-full border p-2 rounded"/>
+          <input name="sn" required 
+            placeholder="Contoh: 123456"
+            class="w-full border p-2 rounded"/>
         </div>
         <div>
           <label class="font-semibold text-sm">Nama Operator</label>
-          <input name="nama" required class="w-full border p-2 rounded"/>
+          <input name="nama" required 
+            placeholder="Contoh: Budi Santoso"
+            class="w-full border p-2 rounded"/>
         </div>
       </div>
 
@@ -64,6 +69,7 @@
         <div>
           <label class="font-semibold text-sm">PIT</label>
           <select name="pit" required class="w-full border p-2 rounded">
+            <option value="">Pilih PIT</option>
             <option value="KGB">KGB</option>
             <option value="GRB">GRB</option>
           </select>
@@ -71,14 +77,14 @@
         <div>
           <label class="font-semibold text-sm">Jenis Unit</label>
           <select name="unitType" required class="w-full border p-2 rounded">
-            <option value="">Pilih</option>
+            <option value="">Pilih jenis unit</option>
             <option value="Excavator">Excavator</option>
             <option value="OHT">OHT</option>
             <option value="Dozer">Dozer</option>
             <option value="Grader">Grader</option>
             <option value="Dump Truck">Dump Truck</option>
             <option value="Compactor">Compactor</option>
-            <option value="WT">WT</option>
+            <option value="WT">Water Tank (WT)</option>
             <option value="Lowboy">Lowboy</option>
           </select>
         </div>
@@ -87,7 +93,9 @@
       <!-- UNIT ID -->
       <div>
         <label class="font-semibold text-sm">ID Unit</label>
-        <input name="unitID" required class="w-full border p-2 rounded"/>
+        <input name="unitID" required 
+          placeholder="Contoh: CO4551 / DT1234"
+          class="w-full border p-2 rounded"/>
       </div>
 
       <!-- RITASI & JARAK -->
@@ -95,11 +103,13 @@
         <div>
           <label class="font-semibold text-xs">Ritasi Actual</label>
           <input type="number" name="ritasi" step="any"
+            placeholder="Contoh: 25"
             class="w-full border p-2 rounded"/>
         </div>
         <div>
           <label class="font-semibold text-xs">Jarak Actual</label>
           <input type="number" name="jarak" step="any"
+            placeholder="Contoh: 3400 (meter)"
             class="w-full border p-2 rounded"/>
         </div>
       </div>
@@ -109,11 +119,13 @@
         <div>
           <label class="font-semibold text-xs">SMU Awal</label>
           <input type="number" name="smuStart" step="any"
+            placeholder="Contoh: 1234.5"
             class="w-full border p-2 rounded"/>
         </div>
         <div>
           <label class="font-semibold text-xs">SMU Akhir</label>
           <input type="number" name="smuEnd" step="any"
+            placeholder="Contoh: 1250.7"
             class="w-full border p-2 rounded"/>
         </div>
       </div>
@@ -121,17 +133,22 @@
       <!-- LAINNYA -->
       <div>
         <label class="font-semibold text-sm">Disposal</label>
-        <input name="disposal" required class="w-full border p-2 rounded"/>
+        <input name="disposal" required 
+          placeholder="Contoh: Disposal A / Waste Dump 1"
+          class="w-full border p-2 rounded"/>
       </div>
 
       <div>
         <label class="font-semibold text-sm">No HP</label>
-        <input name="nohp" type="tel" required class="w-full border p-2 rounded"/>
+        <input name="nohp" type="tel" required 
+          placeholder="Contoh: 081234567890"
+          class="w-full border p-2 rounded"/>
       </div>
 
       <div>
         <label class="font-semibold text-sm">Deskripsi</label>
         <textarea name="desc" required rows="3"
+          placeholder="Jelaskan alasan revisi data secara singkat dan jelas..."
           class="w-full border p-2 rounded"></textarea>
       </div>
 
@@ -142,18 +159,20 @@
         </label>
         <input type="file" name="foto" required accept="image/*"
           class="block w-full text-sm"/>
+        <p class="text-xs text-gray-500 mt-1">
+          Format: JPG/PNG, maksimal 5MB
+        </p>
       </div>
 
       <!-- BUTTON -->
       <button id="btnSubmit" type="submit"
         class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
-        Kirim
+        Kirim Revisi
       </button>
 
     </form>
   </div>
 
-  <!-- ✅ JS di bawah (IMPORTANT) -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
